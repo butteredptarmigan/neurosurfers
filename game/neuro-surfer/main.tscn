@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://iefgvgtv4ll5"]
+
+[ext_resource type="Script" uid="uid://upu7wi3iy5jp" path="res://main.gd" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://djk7ge5acvmd8" path="res://player.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://cfy4qtm84au6u" path="res://obstacle.tscn" id="2_h2yge"]
+
+[node name="Main" type="Node2D" unique_id=1966309997 node_paths=PackedStringArray("score_label", "player")]
+script = ExtResource("1_0xm2m")
+obstacle_scene = ExtResource("2_h2yge")
+score_label = NodePath("CanvasLayer/Label")
+player = NodePath("Player")
+start_speed = 80.0
+acceleration = 15.0
+
+[node name="Player" parent="." unique_id=2130472979 instance=ExtResource("1_ig7tw")]
+position = Vector2(960, 950)
+max_speed = 700.0
+turn_speed = 12.0
+drag = 1.5
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1506634]
+position = Vector2(960, 540)
+zoom = Vector2(0.6, 0.6)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=246545834]
+
+[node name="Label" type="Label" parent="CanvasLayer" unique_id=1347763141]
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 79.0
+offset_bottom = 53.0
+theme_override_font_sizes/font_size = 32
+text = "Points"
