@@ -4,9 +4,14 @@
 [ext_resource type="PackedScene" uid="uid://djk7ge5acvmd8" path="res://player.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cfy4qtm84au6u" path="res://obstacle.tscn" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://fsbo6mg0ulyl" path="res://tree.tscn" id="3_1bvp3"]
+[ext_resource type="Texture2D" uid="uid://co222adgwl1l4" path="res://textures/background_snow_an.jpg" id="4_7mycd"]
+[ext_resource type="Texture2D" uid="uid://0xbvfa8edoo8" path="res://textures/Gemini_Generated_Image_d58xnnd58xnnd58x.jpg" id="6_7mycd"]
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1bvp3"]
-load_path = "res://.godot/imported/large_snow.jpeg-baf5e90783382a3e42a6892aa934f315.ctex"
+[sub_resource type="LabelSettings" id="LabelSettings_kek77"]
+font_size = 32
+outline_size = 4
+outline_color = Color(0.011764706, 0.011764706, 0.011764706, 1)
+shadow_color = Color(0, 0, 0, 1)
 
 [node name="Main" type="Node2D" unique_id=1966309997 node_paths=PackedStringArray("score_label", "player")]
 script = ExtResource("1_0xm2m")
@@ -20,12 +25,12 @@ offset_left = -639.0
 offset_top = -366.0
 offset_right = 2601.0
 offset_bottom = 1459.0
-color = Color(1.92523e-06, 0.81831527, 0.8183154, 1)
+color = Color(1, 0.8980392, 1, 1)
 
 [node name="Road" type="Polygon2D" parent="." unique_id=791706279]
-texture = SubResource("CompressedTexture2D_1bvp3")
+texture = ExtResource("4_7mycd")
 polygon = PackedVector2Array(760, 100, 1160, 100, 1660, 1080, 260, 1080)
-uv = PackedVector2Array(304.08655, 22.161114, 704.0865, 22.161114, 1204.0864, 1002.1611, -195.91345, 1002.1611)
+uv = PackedVector2Array(878.5402, 206.30957, 1524.2622, 206.30957, 2331.415, 1788.3281, 71.38783, 1788.3281)
 
 [node name="Player" parent="." unique_id=2130472979 instance=ExtResource("1_ig7tw")]
 position = Vector2(960, 950)
@@ -38,5 +43,13 @@ offset_left = 30.0
 offset_top = 30.0
 offset_right = 79.0
 offset_bottom = 53.0
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 32
 text = "Points"
+label_settings = SubResource("LabelSettings_kek77")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=1818120341]
+position = Vector2(955.5, -76.75)
+scale = Vector2(0.73437494, 0.43782553)
+texture = ExtResource("6_7mycd")
