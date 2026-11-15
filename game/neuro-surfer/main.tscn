@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cfy4qtm84au6u" path="res://obstacle.tscn" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://fsbo6mg0ulyl" path="res://tree.tscn" id="3_1bvp3"]
 [ext_resource type="Texture2D" uid="uid://co222adgwl1l4" path="res://textures/background_snow_an.jpg" id="4_7mycd"]
-[ext_resource type="Texture2D" uid="uid://0xbvfa8edoo8" path="res://textures/Gemini_Generated_Image_d58xnnd58xnnd58x.jpg" id="6_7mycd"]
+[ext_resource type="Texture2D" uid="uid://bps6ei104whdy" path="res://textures/background.jpeg" id="5_lquwl"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_kek77"]
 font_size = 32
@@ -50,6 +50,6 @@ text = "Points"
 label_settings = SubResource("LabelSettings_kek77")
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1818120341]
-position = Vector2(955.5, -76.75)
-scale = Vector2(0.73437494, 0.43782553)
-texture = ExtResource("6_7mycd")
+position = Vector2(960.9999, -55.500008)
+scale = Vector2(1.356534, 0.41015628)
+texture = ExtResource("5_lquwl")
