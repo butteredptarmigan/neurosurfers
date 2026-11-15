@@ -1,7 +1,7 @@
 extends Area2D 
 
 var game_manager = null
-var horizon_y: float = 100.0
+var horizon_y: float = 160.0
 var bottom_y: float = 1080.0
 
 var lane: float = 0.0

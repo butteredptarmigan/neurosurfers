@@ -1,7 +1,7 @@
 extends Sprite2D
 
 var game_manager = null
-var horizon_y: float = 100.0
+var horizon_y: float = 160.0
 var bottom_y: float = 1080.0
 
 # Pozycja obiektu względem toru. -1.0 to lewa krawędź, 1.0 to prawa krawędź.

@@ -5,6 +5,9 @@ extends Node2D
 @export var score_label: Label
 @export var player: Area2D
 
+@export var calibration_ui: Control
+@export var menu_ui: Control
+
 @export var start_speed: float = 250.0
 @export var max_speed: float = 450.0 
 @export var acceleration: float = 20.0
@@ -14,12 +17,9 @@ extends Node2D
 var udp_peer := PacketPeerUDP.new()
 var listen_port: int = 5005
 
-# --- Zmienne Systemu SSVEP ---
-enum GameState { PLAYING, SSVEP_CHOICE }
-var current_state = GameState.PLAYING
-var ssvep_timer: float = 0.0
-var ssvep_duration: float = 5.0 
-var next_milestone: float = 1000.0 
+# --- Zmienne Systemu Stanów ---
+enum GameState { CALIBRATION, MENU, PLAYING }
+var current_state = GameState.CALIBRATION
 
 var current_speed: float = 0.0
 var score: float = 0.0
@@ -32,9 +32,11 @@ var current_spawn_interval: float = 5.0
 
 func _ready():
 	current_speed = start_speed
-	if score_label: score_label.text = "Punkty: 0"
 	
-	# nasłuchiwanie UDP
+	if score_label: score_label.hide()
+	if calibration_ui: calibration_ui.show()
+	if menu_ui: menu_ui.hide()
+	
 	var err = udp_peer.bind(listen_port)
 	if err == OK:
 		print("Godot nasłuchuje BCI na porcie: ", listen_port)
@@ -44,11 +46,24 @@ func _ready():
 func _process(delta):
 	_poll_udp()
 	
-	if current_state == GameState.PLAYING:
+	# --- AWARYJNE OBEJŚCIE (KLAWIATURA) ---
+	if current_state == GameState.CALIBRATION:
+		if Input.is_action_just_pressed("ui_accept"):
+			print("Awaryjne pominięcie kalibracji (Klawiatura)")
+			current_state = GameState.MENU
+			if calibration_ui: calibration_ui.hide()
+			if menu_ui: menu_ui.show()
+			
+	elif current_state == GameState.MENU:
+		if Input.is_action_just_pressed("ui_accept"):
+			print("Awaryjny start gry (Klawiatura)")
+			current_state = GameState.PLAYING
+			if menu_ui: menu_ui.hide()
+			if score_label: score_label.show()
+			
+	elif current_state == GameState.PLAYING:
 		_process_playing(delta)
-	elif current_state == GameState.SSVEP_CHOICE:
-		_process_ssvep(delta)
-		
+
 func _process_playing(delta):
 	current_speed += acceleration * delta
 	current_speed = clamp(current_speed, start_speed, max_speed)
@@ -56,10 +71,6 @@ func _process_playing(delta):
 	
 	if score_label:
 		score_label.text = "Punkty: %d\nPredkosc: %d" % [int(score), int(current_speed)]
-	
-	# SSVEP check
-	if score >= next_milestone:
-		_start_ssvep_phase()
 		
 	current_spawn_interval = lerp(max_spawn_interval, min_spawn_interval, (current_speed - start_speed) / (max_speed - start_speed))
 	
@@ -72,14 +83,7 @@ func _process_playing(delta):
 	if time_since_last_tree >= (current_spawn_interval * 0.4):
 		_spawn_tree()
 		time_since_last_tree = 0.0
-		
-func _start_ssvep_phase():
-	current_state = GameState.SSVEP_CHOICE
-	ssvep_timer = ssvep_duration
-	next_milestone += 1500.0
-	print("START SSVEP! Brak nowych przeszkód. Czekam na wybór...")
-	# miejsce do wywołania rzeczy jak np. show_ssvep_panels()
-		
+
 func reward_player(delta):
 	current_speed -= braking_power * delta
 	if current_speed < start_speed:
@@ -93,16 +97,14 @@ func trigger_crash():
 func _spawn_obstacle():
 	if obstacle_scene == null: return
 	var obs = obstacle_scene.instantiate()
-	obs.position.y = 100.0 
-	
+	obs.position.y = 160.0 
 	obs.lane = randf_range(-0.8, 0.8) 
-	
 	add_child(obs)
 
 func _spawn_tree():
 	if tree_scene == null: return
 	var tree_obj = tree_scene.instantiate()
-	tree_obj.position.y = 100.0 
+	tree_obj.position.y = 160.0 
 	
 	if randf() > 0.5:
 		tree_obj.lane = randf_range(1.2, 2.2) # Prawe pobocze
@@ -114,7 +116,6 @@ func _spawn_tree():
 func _poll_udp():
 	while udp_peer.get_available_packet_count() > 0:
 		var packet = udp_peer.get_packet()
-		#  (CRITICAL FIX)
 		var message = packet.get_string_from_utf8().strip_edges()
 		
 		var json = JSON.new()
@@ -124,33 +125,27 @@ func _poll_udp():
 			var data = json.data
 			_handle_bci_command(data)
 		else:
-			print("Błąd parsowania JSON! Linia: ", json.get_error_line(), " Błąd: ", json.get_error_message())
-			print("Otrzymana surowa wiadomość: ", message)
+			print("Błąd parsowania JSON! Otrzymana wiadomość: ", message)
 
 func _handle_bci_command(data: Dictionary):
-	if data.has("type"):
-		if data["type"] == "ERD":
-			print("Wykryto ERD (Ruch): ", data["action"])
-			if player != null and player.has_method("apply_bci_command"):
-				player.apply_bci_command(data["action"])
-			
-		elif data["type"] == "SSVEP" and current_state == GameState.SSVEP_CHOICE:
-			var chosen_map = data["map_id"]
-			print("Wykryto SSVEP! Zmieniam mapę na: ", chosen_map)
-			
-			#podmianka tekstur
-			
-			# Skoro wybór został dokonany, wracamy do jazdy
-			_end_ssvep_phase()
-			
-func _process_ssvep(delta):
-	score += delta * 100.0
-	ssvep_timer -= delta
-	
-	if ssvep_timer <= 0:
-		print("SSVEP Timeout! Wracamy do jazdy na starej mapie.")
-		_end_ssvep_phase()
-
-func _end_ssvep_phase():
-	current_state = GameState.PLAYING
-	
+	if not data.has("type"): return
+		
+	match data["type"]:
+		"CALIBRATION_DONE":
+			if current_state == GameState.CALIBRATION:
+				print("Kalibracja zakończona! Przejście do Menu.")
+				current_state = GameState.MENU
+				if calibration_ui: calibration_ui.hide()
+				if menu_ui: menu_ui.show()
+				
+		"SSVEP":
+			if current_state == GameState.MENU and data.get("action") == "start":
+				print("SSVEP wykryty! Startujemy grę.")
+				current_state = GameState.PLAYING
+				if menu_ui: menu_ui.hide()
+				if score_label: score_label.show()
+				
+		"ERD":
+			if current_state == GameState.PLAYING:
+				if player != null and player.has_method("apply_bci_command"):
+					player.apply_bci_command(data["action"])
