@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b45ghqe8vsqr5"
-path="res://.godot/imported/snowy_stone-nobg.png-badd0f38d2ef4fc404b6a931f7dea3e1.ctex"
+uid="uid://vl5pltk25cje"
+path="res://.godot/imported/winter_tree.png-41292f1072475519eca63baa90b812c9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://snowy_stone-nobg.png"
-dest_files=["res://.godot/imported/snowy_stone-nobg.png-badd0f38d2ef4fc404b6a931f7dea3e1.ctex"]
+source_file="res://textures/winter_tree.png"
+dest_files=["res://.godot/imported/winter_tree.png-41292f1072475519eca63baa90b812c9.ctex"]
 
 [params]
 

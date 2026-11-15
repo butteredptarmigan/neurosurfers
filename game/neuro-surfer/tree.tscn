@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://fsbo6mg0ulyl"]
 
-[ext_resource type="Texture2D" uid="uid://vl5pltk25cje" path="res://winter_tree.png" id="1_nnvrw"]
+[ext_resource type="Texture2D" uid="uid://vl5pltk25cje" path="res://textures/winter_tree.png" id="1_nnvrw"]
 [ext_resource type="Script" uid="uid://cr8wieugdhqpt" path="res://tree.gd" id="2_gvmkm"]
 
 [node name="Tree" type="Sprite2D" unique_id=246685350]
