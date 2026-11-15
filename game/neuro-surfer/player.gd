@@ -33,13 +33,13 @@ func _process(delta):
 		
 	position.x += target_velocity_x * delta
 	
-	position.x = clamp(position.x, 30, screen_size.x - 30)
+	position.x = clamp(position.x, 350, 1570)
 	
 	# rotacja sprite'a proporcjonalnie do prędkości
 	rotation_degrees = (target_velocity_x / max_speed) * max_rotation_deg
 
 func _on_area_entered(area):
 	if area.is_in_group("obstacle"):
-		print("Kraksa! Kolizja z:", area.name)
+		print("Oh no! You hit:", area.name)
 		if game_manager:
 			game_manager.trigger_crash()

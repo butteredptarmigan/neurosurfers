@@ -3,24 +3,33 @@
 [ext_resource type="Script" uid="uid://upu7wi3iy5jp" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://djk7ge5acvmd8" path="res://player.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cfy4qtm84au6u" path="res://obstacle.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://fsbo6mg0ulyl" path="res://tree.tscn" id="3_1bvp3"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1bvp3"]
+load_path = "res://.godot/imported/large_snow.jpeg-baf5e90783382a3e42a6892aa934f315.ctex"
 
 [node name="Main" type="Node2D" unique_id=1966309997 node_paths=PackedStringArray("score_label", "player")]
 script = ExtResource("1_0xm2m")
 obstacle_scene = ExtResource("2_h2yge")
+tree_scene = ExtResource("3_1bvp3")
 score_label = NodePath("CanvasLayer/Label")
 player = NodePath("Player")
-start_speed = 80.0
-acceleration = 15.0
+
+[node name="Sky" type="ColorRect" parent="." unique_id=87242004]
+offset_left = -639.0
+offset_top = -366.0
+offset_right = 2601.0
+offset_bottom = 1459.0
+color = Color(1.92523e-06, 0.81831527, 0.8183154, 1)
+
+[node name="Road" type="Polygon2D" parent="." unique_id=791706279]
+texture = SubResource("CompressedTexture2D_1bvp3")
+polygon = PackedVector2Array(760, 100, 1160, 100, 1660, 1080, 260, 1080)
+uv = PackedVector2Array(304.08655, 22.161114, 704.0865, 22.161114, 1204.0864, 1002.1611, -195.91345, 1002.1611)
 
 [node name="Player" parent="." unique_id=2130472979 instance=ExtResource("1_ig7tw")]
 position = Vector2(960, 950)
 max_speed = 700.0
-turn_speed = 12.0
-drag = 1.5
-
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1506634]
-position = Vector2(960, 540)
-zoom = Vector2(0.6, 0.6)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=246545834]
 

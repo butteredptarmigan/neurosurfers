@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://be2ufft4c6mp8"
-path="res://.godot/imported/rock.jpeg-c448b000a3dbe8ec6579200d722abc9f.ctex"
+uid="uid://b45ghqe8vsqr5"
+path="res://.godot/imported/snowy_stone-nobg.png-badd0f38d2ef4fc404b6a931f7dea3e1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://rock.jpeg"
-dest_files=["res://.godot/imported/rock.jpeg-c448b000a3dbe8ec6579200d722abc9f.ctex"]
+source_file="res://snowy_stone-nobg.png"
+dest_files=["res://.godot/imported/snowy_stone-nobg.png-badd0f38d2ef4fc404b6a931f7dea3e1.ctex"]
 
 [params]
 
