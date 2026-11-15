@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cfy4qtm84au6u"]
+
+[ext_resource type="Script" uid="uid://b030wb6xummbc" path="res://obstacle.gd" id="1_sl1jc"]
+[ext_resource type="Texture2D" uid="uid://b45ghqe8vsqr5" path="res://textures/snowy_stone-nobg.png" id="2_aubd6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h2yge"]
+size = Vector2(122, 119)
+
+[node name="Obstacle" type="Area2D" unique_id=1079115816 groups=["obstacle"]]
+script = ExtResource("1_sl1jc")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=747809535]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_aubd6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1128108122]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_h2yge")
